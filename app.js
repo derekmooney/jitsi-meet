@@ -141,12 +141,16 @@ function doJoin() {
     var path = window.location.pathname;
     var roomjid;
 
+    path = window.location.search;
+    roomnode = path.toLowerCase();
+
+
     // determinde the room node from the url
     // TODO: just the roomnode or the whole bare jid?
-    if (config.getroomnode && typeof config.getroomnode === 'function') {
+    // if (config.getroomnode && typeof config.getroomnode === 'function') {
         // custom function might be responsible for doing the pushstate
-        roomnode = config.getroomnode(path);
-    } else {
+    //    roomnode = config.getroomnode(path);
+    // } else {
         /* fall back to default strategy
          * this is making assumptions about how the URL->room mapping happens.
          * It currently assumes deployment at root, with a rewrite like the
@@ -155,14 +159,14 @@ function doJoin() {
             rewrite ^/(.*)$ / break;
         }
          */
-        if (path.length > 1) {
-            roomnode = path.substr(1).toLowerCase();
-        } else {
-            roomnode = Math.random().toString(36).substr(2, 20);
-            window.history.pushState('VideoChat',
-                    'Room: ' + roomnode, window.location.pathname + roomnode);
-        }
-    }
+    //    if (path.length > 1) {
+    //        roomnode = path.substr(1).toLowerCase();
+    //    } else {
+    //        roomnode = Math.random().toString(36).substr(2, 20);
+    //        window.history.pushState('VideoChat',
+    //                'Room: ' + roomnode, window.location.pathname + roomnode);
+    //    }
+    // }
 
     roomjid = roomnode + '@' + config.hosts.muc;
 
@@ -1790,7 +1794,7 @@ function showDisplayName(videoSpanId, displayName) {
 
 /**
  * Creates the edit display name button.
- * 
+ *
  * @returns the edit button
  */
 function createEditDisplayNameButton() {
